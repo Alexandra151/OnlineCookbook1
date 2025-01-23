@@ -1,0 +1,17 @@
+﻿@model OnlineCookbook.Models.User
+
+<form asp-action="Create">
+    <div>
+        <label for="Username">Username</label>
+        @Html.EditorFor(model => model.UserName)
+    </div>
+    <div>
+        <label for="Email">Email</label>
+        @Html.EditorFor(model => model.Email)
+    </div>
+    <div>
+        <label for="Role">Role</label>
+        @Html.EditorFor(model => model.Role)
+    </div>
+    <button type="submit">Create</button>
+</form>

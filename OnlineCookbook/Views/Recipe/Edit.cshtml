@@ -1,0 +1,23 @@
+﻿@model OnlineCookbook.Models.Recipe
+
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <div>
+        <label for="Title">Title</label>
+        @Html.EditorFor(model => model.Title)
+    </div>
+    <div>
+        <label for="Description">Description</label>
+        @Html.EditorFor(model => model.Description)
+    </div>
+    <div>
+        <label for="Rating">Rating</label>
+        @Html.EditorFor(model => model.Rating)
+    </div>
+    <div>
+        <label for="CategoryId">Category</label>
+        @Html.DropDownListFor(model => model.CategoryId, new SelectList(ViewBag.Categories, "Id", "Name"))
+    </div>
+    <button type="submit">Save</button>
+</form>

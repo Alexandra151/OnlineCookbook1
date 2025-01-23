@@ -1,0 +1,17 @@
+﻿@model OnlineCookbook.Models.User
+
+<h2>Szczegóły użytkownika</h2>
+
+<dl>
+    <dt>Username</dt>
+    <dd>@Model.UserName</dd>
+
+    <dt>Email</dt>
+    <dd>@Model.Email</dd>
+
+    <dt>Role</dt>
+    <dd>@Model.Role</dd>
+</dl>
+
+<a asp-action="Edit" asp-route-id="@Model.Id">Edytuj</a>
+<a asp-action="Index">Powrót do listy</a>

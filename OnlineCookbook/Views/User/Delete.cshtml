@@ -1,0 +1,20 @@
+﻿@model OnlineCookbook.Models.User
+
+<h2>Usuń użytkownika</h2>
+
+<dl>
+    <dt>Username</dt>
+    <dd>@Model.UserName</dd>
+
+    <dt>Email</dt>
+    <dd>@Model.Email</dd>
+
+    <dt>Role</dt>
+    <dd>@Model.Role</dd>
+</dl>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit">Usuń</button>
+    <a asp-action="Index">Anuluj</a>
+</form>

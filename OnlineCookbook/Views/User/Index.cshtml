@@ -1,0 +1,30 @@
+﻿@model IEnumerable<OnlineCookbook.Models.User>
+
+<h2>Lista użytkowników</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.First().UserName)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Email)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Role)</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => user.UserName)</td>
+                <td>@Html.DisplayFor(modelItem => user.Email)</td>
+                <td>@Html.DisplayFor(modelItem => user.Role)</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@user.Id">Szczegóły</a> |
+                    <a asp-action="Edit" asp-route-id="@user.Id">Edytuj</a> |
+                    <a asp-action="Delete" asp-route-id="@user.Id">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Create">Dodaj nowego użytkownika</a>
