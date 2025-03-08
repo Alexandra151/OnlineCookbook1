@@ -17,18 +17,27 @@ namespace OnlineCookbook.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Konfiguracja precyzji dla właściwości Rating
+            // Relacja Recipe → User
             modelBuilder.Entity<Recipe>()
-                .Property(r => r.Rating)
-                .HasPrecision(2, 1); // Maksymalnie 2 cyfry, z czego 1 po przecinku
+                .HasOne(r => r.User)
+                .WithMany(u => u.Recipes)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
 
-            // Konfiguracja relacji wiele-do-wielu
+            // Relacja Recipe → Category
+            modelBuilder.Entity<Recipe>()
+                .HasOne(r => r.Category)
+                .WithMany()
+                .HasForeignKey(r => r.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Relacja RecipeIngredient (klucz główny)
             modelBuilder.Entity<RecipeIngredient>()
                 .HasKey(ri => new { ri.RecipeId, ri.IngredientId });
 
             modelBuilder.Entity<RecipeIngredient>()
                 .HasOne(ri => ri.Recipe)
-                .WithMany(r => r.Ingredients)
+                .WithMany(r => r.RecipeIngredients)
                 .HasForeignKey(ri => ri.RecipeId);
 
             modelBuilder.Entity<RecipeIngredient>()

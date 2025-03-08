@@ -1,21 +1,41 @@
 ﻿@model OnlineCookbook.Models.Recipe
 
+<h2>Add Recipe</h2>
+
 <form asp-action="Create">
-    <div>
-        <label for="Title">Title</label>
-        @Html.EditorFor(model => model.Title)
+    <input type="hidden" asp-for="UserId" />
+
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
-    <div>
-        <label for="Description">Description</label>
-        @Html.EditorFor(model => model.Description)
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
     </div>
-    <div>
-        <label for="Rating">Rating</label>
-        @Html.EditorFor(model => model.Rating)
+
+    <div class="form-group">
+        <label asp-for="Rating" class="control-label"></label>
+        <input asp-for="Rating" type="number" class="form-control" min="1" max="5" />
+        <span asp-validation-for="Rating" class="text-danger"></span>
     </div>
-    <div>
-        <label for="CategoryId">Category</label>
-        @Html.DropDownListFor(model => model.CategoryId, new SelectList(ViewBag.Categories, "Id", "Name"))
+
+    <div class="form-group">
+        <label asp-for="CategoryId" class="control-label"></label>
+        <select asp-for="CategoryId" class="form-control" asp-items="@(ViewData["CategoryId"] as SelectList)">
+            <option value="">-- Select a category --</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
-    <button type="submit">Create</button>
+
+    <div class="form-group mt-2">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
 </form>
+
+<div>
+    <a asp-action="Index">Back to list</a>
+</div>

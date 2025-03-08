@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineCookbook.Models
 {
@@ -13,13 +14,21 @@ namespace OnlineCookbook.Models
         [Required]
         public string Description { get; set; } = string.Empty;
 
-        [Range(0, 5)]
-        public decimal Rating { get; set; }
+        [Range(1, 5)]
+        public int Rating { get; set; }
 
+        [Required]
         public int CategoryId { get; set; }
-        public Category Category { get; set; } = new Category();
 
-        // Relacja wiele-do-wielu z Ingredients
-        public ICollection<RecipeIngredient> Ingredients { get; set; } = new List<RecipeIngredient>();
+        public string? UserId { get; set; } 
+
+        
+        [ForeignKey("CategoryId")]
+        public virtual Category? Category { get; set; } // Relacja do kategorii
+
+        [ForeignKey("UserId")]
+        public virtual User? User { get; set; } // Relacja do użytkownika
+
+        public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
     }
 }

@@ -1,32 +1,40 @@
 ﻿@model IEnumerable<OnlineCookbook.Models.Recipe>
 
-<h2>Lista przepisów</h2>
+<h2>Recipes</h2>
+<a class="btn btn-primary" asp-action="Create">Add Recipe</a>
 
-<table>
+<table class="table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.First().Title)</th>
-            <th>@Html.DisplayNameFor(model => model.First().Description)</th>
-            <th>@Html.DisplayNameFor(model => model.First().Category.Name)</th>
-            <th>@Html.DisplayNameFor(model => model.First().Rating)</th>
-            <th>Akcje</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Rating</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var recipe in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                <td>@Html.DisplayFor(modelItem => item.Category.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+                <td>@recipe.Title</td>
+                <td>@recipe.Description</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Szczegóły</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
+                    @for (int i = 0; i < recipe.Rating; i++)
+                    {
+                        <span>&#9733;</span>
+                    }
+                    @for (int i = recipe.Rating; i < 5; i++)
+                    {
+                        <span>&#9734;</span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@recipe.Id">Edit</a>
+                    <form asp-action="Delete" asp-route-id="@recipe.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<a asp-action="Create">Dodaj nowy przepis</a>

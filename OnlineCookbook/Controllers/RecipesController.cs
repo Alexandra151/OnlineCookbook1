@@ -27,13 +27,19 @@ public class RecipesController : ControllerBase
     public async Task<ActionResult<Recipe>> GetRecipe(int id)
     {
         var recipe = await _context.Recipes.FindAsync(id);
-
         if (recipe == null)
         {
             return NotFound();
         }
-
         return recipe;
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
+    {
+        _context.Recipes.Add(recipe);
+        await _context.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetRecipe), new { id = recipe.Id }, recipe);
     }
 
     [HttpPut("{id}")]
@@ -52,26 +58,14 @@ public class RecipesController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!RecipeExists(id))
+            if (!_context.Recipes.Any(e => e.Id == id))
             {
                 return NotFound();
             }
-            else
-            {
-                throw;
-            }
+            throw;
         }
 
         return NoContent();
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
-    {
-        _context.Recipes.Add(recipe);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
     }
 
     [HttpDelete("{id}")]
@@ -85,12 +79,6 @@ public class RecipesController : ControllerBase
 
         _context.Recipes.Remove(recipe);
         await _context.SaveChangesAsync();
-
         return NoContent();
-    }
-
-    private bool RecipeExists(int id)
-    {
-        return _context.Recipes.Any(e => e.Id == id);
     }
 }

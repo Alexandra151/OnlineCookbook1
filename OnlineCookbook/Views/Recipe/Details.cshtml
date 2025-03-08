@@ -1,30 +1,8 @@
 ﻿@model OnlineCookbook.Models.Recipe
 
-<h2>Szczegóły przepisu</h2>
+<h2>@Model.Title</h2>
+<p><strong>Description:</strong> @Model.Description</p>
+<p><strong>Rating:</strong> @Model.Rating</p>
+<p><strong>Category:</strong> @Model.Category?.Name</p>
 
-<dl>
-    <dt>Tytuł</dt>
-    <dd>@Model.Title</dd>
-
-    <dt>Opis</dt>
-    <dd>@Model.Description</dd>
-
-    <dt>Ocena</dt>
-    <dd>@Model.Rating</dd>
-
-    <dt>Kategoria</dt>
-    <dd>@Model.Category.Name</dd>
-
-    <dt>Składniki</dt>
-    <dd>
-        <ul>
-            @foreach (var ingredient in Model.Ingredients)
-            {
-                <li>@ingredient.Ingredient.Name</li>
-            }
-        </ul>
-    </dd>
-</dl>
-
-<a asp-action="Edit" asp-route-id="@Model.Id">Edytuj</a>
-<a asp-action="Index">Wróć do listy</a>
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>

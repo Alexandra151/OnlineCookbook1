@@ -1,26 +1,14 @@
 ﻿@model OnlineCookbook.Models.Recipe
 
-<h2>Usuń przepis</h2>
-
+<h2>Delete Recipe</h2>
+<p>Are you sure you want to delete this recipe?</p>
 <div>
-    <h3>Czy na pewno chcesz usunąć ten przepis?</h3>
-    <dl>
-        <dt>Tytuł</dt>
-        <dd>@Model.Title</dd>
-
-        <dt>Opis</dt>
-        <dd>@Model.Description</dd>
-
-        <dt>Ocena</dt>
-        <dd>@Model.Rating</dd>
-
-        <dt>Kategoria</dt>
-        <dd>@Model.Category.Name</dd>
-    </dl>
-
-    <form asp-action="DeleteConfirmed" method="post">
-        <input type="hidden" asp-for="Id" />
-        <button type="submit">Usuń</button>
-        <a asp-action="Index">Anuluj</a>
-    </form>
+    <h4>@Model.Title</h4>
+    <p>@Model.Description</p>
 </div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

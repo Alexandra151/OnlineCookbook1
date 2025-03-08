@@ -1,8 +1,36 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<OnlineCookbook.Models.Recipe>
+
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Welcome to OnlineCookbook</h2>
+<p>Discover and share amazing recipes!</p>
+
+<h3>Latest Recipes</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Rate</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var recipe in Model)
+        {
+            <tr>
+                <td>@recipe.Title</td>
+                <td>
+                    @for (int i = 0; i < recipe.Rating; i++)
+                    {
+                        <span>&#9733;</span> 
+                    }
+                    @for (int i = recipe.Rating; i < 5; i++)
+                    {
+                        <span>&#9734;</span> 
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

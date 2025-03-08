@@ -165,7 +165,8 @@ namespace OnlineCookbook.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -204,17 +205,21 @@ namespace OnlineCookbook.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Rating")
-                        .HasPrecision(2, 1)
-                        .HasColumnType("decimal(2,1)");
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
                 });
@@ -225,6 +230,9 @@ namespace OnlineCookbook.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.HasKey("RecipeId", "IngredientId");
@@ -357,12 +365,19 @@ namespace OnlineCookbook.Migrations
             modelBuilder.Entity("OnlineCookbook.Models.Recipe", b =>
                 {
                     b.HasOne("OnlineCookbook.Models.Category", "Category")
-                        .WithMany("Recipes")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("OnlineCookbook.Models.User", "User")
+                        .WithMany("Recipes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("Category");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OnlineCookbook.Models.RecipeIngredient", b =>
@@ -374,7 +389,7 @@ namespace OnlineCookbook.Migrations
                         .IsRequired();
 
                     b.HasOne("OnlineCookbook.Models.Recipe", "Recipe")
-                        .WithMany("Ingredients")
+                        .WithMany("RecipeIngredients")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -384,11 +399,6 @@ namespace OnlineCookbook.Migrations
                     b.Navigation("Recipe");
                 });
 
-            modelBuilder.Entity("OnlineCookbook.Models.Category", b =>
-                {
-                    b.Navigation("Recipes");
-                });
-
             modelBuilder.Entity("OnlineCookbook.Models.Ingredient", b =>
                 {
                     b.Navigation("RecipeIngredients");
@@ -396,7 +406,12 @@ namespace OnlineCookbook.Migrations
 
             modelBuilder.Entity("OnlineCookbook.Models.Recipe", b =>
                 {
-                    b.Navigation("Ingredients");
+                    b.Navigation("RecipeIngredients");
+                });
+
+            modelBuilder.Entity("OnlineCookbook.Models.User", b =>
+                {
+                    b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618
         }
